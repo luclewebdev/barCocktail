@@ -14,5 +14,22 @@
 
         <hr>
 
+        {% for comment in cocktail.comments %}
+
+                <div>
+                        <p><strong>{{ comment.author.username }}</strong></p>
+                        <p>{{ comment.content }}</p>
+                </div>
+
+        {% endfor %}
+        <hr>
+        <hr>
+        <div>
+                {{ form_start(commentForm, {'action': path('app_comment', id:cocktail.id)}) }}
+                {{ form_widget(commentForm.content) }}
+                <button type="submit">Envoyer</button>
+                {{ form_end(commentForm) }}
+        </div>
+
 
 {% endblock %}

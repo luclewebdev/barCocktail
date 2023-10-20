@@ -17,5 +17,17 @@
 
         <hr>
 
+        {% for comment in cocktail.comments %}
+
+            <div>
+                <p><strong>{{ comment.author.username }}</strong></p>
+                <p>{{ comment.content }}</p>
+            </div>
+
+            {% endfor %}
+        <hr>
+        <hr>
+
+
     {% endfor %}
 {% endblock %}

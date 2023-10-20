@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Cocktail;
+use App\Entity\Comment;
 use App\Form\CocktailType;
+use App\Form\CommentType;
 use App\Repository\CocktailRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,16 +20,19 @@ class CocktailController extends AbstractController
     public function index(CocktailRepository $cocktailRepository): Response
     {
 
+
         return $this->render('cocktail/index.html.twig', [
-            'cocktails' => $cocktailRepository->findAll(),
+            'cocktails' => $cocktailRepository->findAll()
         ]);
     }
 
 #[Route('/cocktail/show/{id}', name:'cocktail_show')]
 public function show(Cocktail $cocktail){
-
+    $comment = new Comment();
+    $commentForm = $this->createForm(CommentType::class, $comment);
         return $this->render('cocktail/show.html.twig', [
-            "cocktail"=>$cocktail
+            "cocktail"=>$cocktail,
+            'commentForm'=>$commentForm->createView()
         ]);
 }
 
@@ -66,18 +71,10 @@ public function create(Cocktail $cocktail =null,Request $request, EntityManagerI
 #[Route('/cocktail/delete/{id}', name:'delete_cocktail')]
 public function delete(Cocktail $cocktail, EntityManagerInterface $manager)
 {
-    if(!$this->getUser()){return $this->redirectToRoute('app_cocktail');}
-
-    if($this->getUser() !== $cocktail->getAuthor()){
-
-        return $this->redirectToRoute('app_cocktail');
-    }
-
 
     $manager->remove($cocktail);
     $manager->flush();
     return $this->redirectToRoute('app_cocktail');
-
 
 }
 
