@@ -19,7 +19,7 @@ class CommentController extends AbstractController
               $comment = new Comment();
               $commentForm = $this->createForm(CommentType::class, $comment);
 
-              $commentForm->handleRequest($commentForm);
+              $commentForm->handleRequest($request);
               if($commentForm->isSubmitted() && $commentForm->isValid())
               {
                   $comment->setCocktail($cocktail);
@@ -28,8 +28,6 @@ class CommentController extends AbstractController
 
                   return $this->redirectToRoute('show_cocktail', ['id'=>$cocktail->getId()]);
               }
-
-
 
 
         return $this->redirectToRoute('app_cocktail');
