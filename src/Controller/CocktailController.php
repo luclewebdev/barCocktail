@@ -37,6 +37,8 @@ public function show(Cocktail $cocktail){
 
 public function create(Cocktail $cocktail =null,Request $request, EntityManagerInterface $manager){
 
+        if(!$this->getUser()){return $this->redirectToRoute('app_cocktail');}
+
         if(!$cocktail){
             $cocktail = new Cocktail();
 
@@ -48,7 +50,7 @@ public function create(Cocktail $cocktail =null,Request $request, EntityManagerI
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-
+            $cocktail->setAuthor($this->getUser());
             $manager->persist($cocktail);
             $manager->flush();
             return $this->redirectToRoute('app_cocktail');
@@ -64,6 +66,13 @@ public function create(Cocktail $cocktail =null,Request $request, EntityManagerI
 #[Route('/cocktail/delete/{id}', name:'delete_cocktail')]
 public function delete(Cocktail $cocktail, EntityManagerInterface $manager)
 {
+    if(!$this->getUser()){return $this->redirectToRoute('app_cocktail');}
+
+    if($this->getUser() !== $cocktail->getAuthor()){
+
+        return $this->redirectToRoute('app_cocktail');
+    }
+
 
     $manager->remove($cocktail);
     $manager->flush();
