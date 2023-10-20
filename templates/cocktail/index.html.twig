@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CocktailController!{% endblock %}
+
+{% block body %}
+
+    {% for cocktail in cocktails %}
+
+        <hr>
+        <h3>{{ cocktail.name }}</h3>
+
+        <p>{{ cocktail.description }}</p>
+
+        <a href="{{ path('cocktail_show', {id:cocktail.id}) }}">voir</a>
+        <a href="{{ path('edit_cocktail', {id:cocktail.id}) }}">edit</a>
+        <a href="{{ path('delete_cocktail', {id:cocktail.id}) }}">suppr</a>
+
+        <hr>
+
+    {% endfor %}
+{% endblock %}

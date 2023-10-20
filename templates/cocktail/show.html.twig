@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CocktailController!{% endblock %}
+
+{% block body %}
+
+
+        <hr>
+        <h3>{{ cocktail.name }}</h3>
+
+        <p>{{ cocktail.description }}</p>
+        <a href="{{ path('app_cocktail') }}">retour</a>
+
+
+        <hr>
+
+
+{% endblock %}
